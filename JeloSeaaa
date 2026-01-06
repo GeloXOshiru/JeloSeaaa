@@ -1,122 +1,163 @@
-local TweenService = game:GetService("TweenService")
-local UserInputService = game:GetService("UserInputService")
-local CoreGui = game:GetService("CoreGui")
+local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-Design/Libraries/main/Shaman/Library.lua'))()
+local Flags = Library.Flags
 
--- UI Construction
-local Elerium = Instance.new("ScreenGui")
-Elerium.Name = "Elerium_Hub"
-Elerium.Parent = CoreGui
-Elerium.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+local Window = Library:Window({
+    Text = "Baseplate"
+})
 
-local MainFrame = Instance.new("Frame")
-MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 450, 0, 300)
-MainFrame.Position = UDim2.new(0.5, -225, 0.5, -150)
-MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-MainFrame.BorderSizePixel = 0
-MainFrame.Parent = Elerium
+local Tab = Window:Tab({
+    Text = "Aiming"
+})
 
-local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0, 8)
-UICorner.Parent = MainFrame
+local Tab2 = Window:Tab({
+    Text = "Visual"
+})
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Thickness = 1.5
-UIStroke.Color = Color3.fromRGB(60, 60, 60)
-UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-UIStroke.Parent = MainFrame
+local ChamsSection = Tab2:Section({
+    Text = "Chams"
+})
 
-local TopBar = Instance.new("Frame")
-TopBar.Name = "TopBar"
-TopBar.Size = UDim2.new(1, 0, 0, 40)
-TopBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-TopBar.BorderSizePixel = 0
-TopBar.Parent = MainFrame
+local Section = Tab:Section({
+    Text = "Aimbot"
+})
 
-local TopCorner = Instance.new("UICorner")
-TopCorner.CornerRadius = UDim.new(0, 8)
-TopCorner.Parent = TopBar
+local Section2 = Tab:Section({
+    Text = "FOV"
+})
 
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, -20, 1, 0)
-Title.Position = UDim2.new(0, 15, 0, 0)
-Title.BackgroundTransparency = 1
-Title.Text = "ELERIUM | V1.0"
-Title.TextColor3 = Color3.fromRGB(0, 170, 255)Title.TextSize = 18
-Title.Font = Enum.Font.GothamBold
-Title.TextXAlignment = Enum.TextXAlignment.Left
-Title.Parent = TopBar
+local Section3 = Tab:Section({
+    Text = "Misc",
+    Side = "Right"
+})
 
-local Container = Instance.new("ScrollingFrame")
-Container.Size = UDim2.new(1, -20, 1, -60)
-Container.Position = UDim2.new(0, 10, 0, 50)
-Container.BackgroundTransparency = 1
-Container.ScrollBarThickness = 2
-Container.Parent = MainFrame
+ChamsSection:Toggle({
+    Text = "Enabled"
+})
 
-local UIList = Instance.new("UIListLayout")
-UIList.Padding = UDim.new(0, 8)
-UIList.Parent = Container
+ChamsSection:Toggle({
+    Text = "Color"
+})
 
--- Utility Functions
-local function CreateButton(text, callback)    local Button = Instance.new("TextButton")
-    Button.Size = UDim2.new(1, -10, 0, 35)
-    Button.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    Button.Text = text
-    Button.TextColor3 = Color3.fromRGB(230, 230, 230)
-    Button.Font = Enum.Font.Gotham
-    Button.TextSize = 14
-    Button.AutoButtonColor = false
-    Button.Parent = Container
+ChamsSection:Toggle({
+    Text = "Filled"
+})
 
-    local btnCorner = Instance.new("UICorner")
-    btnCorner.CornerRadius = UDim.new(0, 6)
-    btnCorner.Parent = Button
+ChamsSection:Toggle({
+    Text = "Team Check"
+})
 
-    Button.MouseEnter:Connect(function()
-        TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(45, 45, 45)}):Play()
-    end)
-    
-    Button.MouseLeave:Connect(function()
-        TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(35, 35, 35)}):Play()
-    end)
+Section:Toggle({
+    Text = "Enabled"
+})
 
-    Button.MouseButton1Click:Connect(callback)end
+Section:Toggle({
+    Text = "Wall Check"
+})
 
--- Dragging Logic
-local dragging, dragInput, dragStart, startPos
-MainFrame.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = MainFrame.Position
+Section:Toggle({
+    Text = "Smooth Aimbot"
+})
+
+Section2:Toggle({
+    Text = "Enabled"
+})
+
+Section2:Toggle({
+    Text = "Filled FOV"
+})
+
+Section2:Toggle({
+    Text = "FOV Transparency",
+    Tooltip = "Changes your fov transparency."
+})
+
+Section2:Button({
+    Text = "Reset FOV",
+    Tooltip = "This resets your aimbot fov."
+})
+
+Section3:Toggle({
+    Text = "Infinite Ammo"
+})
+
+Section3:Toggle({
+    Text = "No Spread"
+})
+
+Section3:Toggle({
+    Text = "No Bullet Drop",
+    Default = true
+})
+
+Section3:Toggle({
+    Text = "Full Auto"
+})
+
+local a = Section3:Toggle({
+    Text = "No Recoil"
+})
+
+local label = Section3:Label({
+    Text = "This is a label.",
+    Color = Color3.fromRGB(217, 97, 99),
+    Tooltip = "This is a label."
+})
+
+local dropdown = Section:Dropdown({
+    Text = "Dropdown",
+    List = {"Head","Torso","Random"},
+    Flag = "Choosen",
+    Callback = function(v)
+        warn(v)
     end
-end)
+})
 
-UserInputService.InputChanged:Connect(function(input)
-    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local delta = input.Position - dragStart
-        MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    endend)
-
-UserInputService.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = false
+Section:RadioButton({
+    Text = "RadioButton",
+    Options = {"Legit","Blatant"},
+    Callback = function(v)
+        warn(v)
     end
-end)
+})
 
--- Implementation
-CreateButton("Print Hello World", function()
-    print("Elerium: Hello World!")
-end)
+Section:Toggle({
+    Text = "Silent Aimbot"
+})
 
-CreateButton("Speed Boost (100)", function()
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
-end)
+Section:Input({
+    Placeholder = "Webhook URL",
+    Flag = "URL"
+})
 
-CreateButton("Reset Speed", function()
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-end)
+Section:Keybind({
+    Default = Enum.KeyCode.E,
+    Text = "Aimbot Key",
+    Callback = function()
+        warn("Pressed")
+    end
+})
 
-CreateButton("Close UI", function()    Elerium:Destroy()
-end)
+Section:Slider({
+    Text = "Slider Test",
+    Default = 5,
+    Minimum = 0,
+    Maximum = 50,
+    Flag = "SliderFlag",
+    Callback = function(v)
+        warn(v)
+    end
+})
+
+Tab:Select()
+
+wait(5)
+
+--[[dropdown:Refresh({
+    List = {"Head", "Feet"}
+})--]]
+
+label:Set({
+    Text = "This is a red label."
+})
+
+a:Set(true)
