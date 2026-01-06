@@ -1,5 +1,5 @@
 -- Elerium v2 UI Library Implementation
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local library = https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
